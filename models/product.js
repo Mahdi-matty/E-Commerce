@@ -38,6 +38,8 @@ Product.init(
         },
   
       }
+      },{
+        sequelize
       }
   );
   

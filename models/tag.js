@@ -14,6 +14,8 @@ Tag.init(
           tag_name: {
             type: DataTypes.STRING,
           },
+    },{
+      sequelize
     }
 );
 module.exports = Tag;

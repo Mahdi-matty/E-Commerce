@@ -1,5 +1,5 @@
 const express = require('express');
-const allRoutes = require('./controllers');
+const allRoutes = require('./routes');
 const sequelize = require('./config/connection');
 
 const app = express();
@@ -8,9 +8,13 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const {Category,tag, product, productTag} = require('./models/');
+const {Category,Tag, Product, ProductTag} = require('./models/');
 
-pp.use(routes);
+app.use('/',allRoutes);
+
+app.use(allRoutes);
+
+
 sequelize.sync({ force: false }).then(() => {
     app.listen(PORT, () => console.log('Now listening'));
   });

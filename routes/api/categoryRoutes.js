@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Category, product, tag, productTag } = require('../../models');
+const { Category, Product, Tag, ProductTag } = require('../../models');
 
 router.get('/', async (req, res) => {
     try {
@@ -12,9 +12,9 @@ router.get('/', async (req, res) => {
 
   router.get('/:id', async (req, res) => {
     try {
-      const categoryData = await Location.findByPk(req.params.id, {
+      const categoryData = await Category.findByPk(req.params.id, {
         // JOIN with travellers, using the Trip through table
-        include: [{ model: Traveller, through: Trip, as: 'location_travellers' }]
+        include: [Product]
       });
   
       if (!categoryData) {
@@ -72,7 +72,7 @@ router.get('/', async (req, res) => {
       });
   
       if (!categoryData) {
-        res.status(404).json({ message: 'No catregory found with this id!' });
+        res.status(404).json({ message: 'No category found with this id!' });
         return;
       }
   

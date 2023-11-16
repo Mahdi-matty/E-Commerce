@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const { Category, product, tag, productTag } = require('../../models');
+const { Category, Product, Tag, ProductTag } = require('../../models');
 
 router.get('/', async (req, res) => {
     try {
-      const tagData = await tag.findAll();
+      const tagData = await Tag.findAll();
       res.status(200).json(tagData);
     } catch (err) {
       res.status(500).json(err);
@@ -12,13 +12,13 @@ router.get('/', async (req, res) => {
 
   router.get('/:id', async (req, res) => {
     try {
-      const tagData = await tag.findByPk(req.params.id, {
+      const tagData = await Tag.findByPk(req.params.id, {
         // JOIN with travellers, using the Trip through table
-        include: [{ model: Traveller, through: Trip, as: 'location_travellers' }]
+        include: [Product]
       });
   
       if (!tagData) {
-        res.status(404).json({ message: 'No tag found with this id!' });
+        res.status(404).json({ message: 'No Tag found with this id!' });
         return;
       }
   
@@ -30,14 +30,14 @@ router.get('/', async (req, res) => {
 
   router.post('/', async (req, res) => {
     try {
-      const tagData = await tag.create(req.body);
+      const tagData = await Tag.create(req.body);
       res.status(200).json(tagData);
     } catch (err) {
       res.status(400).json(err);
     }
   });
   router.put("/:id", (req, res) => {
-    tag.update(
+    Tag.update(
       {
         tag_name: req.body.tag_name,
       },
@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
         if (updatedTag[0]) {
           res.json(updatedTag);
         } else {
-          res.status(404).json({ msg: "no such tag to update" });
+          res.status(404).json({ msg: "no such Tag to update" });
         }
       })
       .catch((err) => {
@@ -65,7 +65,7 @@ router.get('/', async (req, res) => {
 
   router.delete('/:id', async (req, res) => {
     try {
-      const tagData = await tag.destroy({
+      const tagData = await Tag.destroy({
         where: {
           id: req.params.id
         }

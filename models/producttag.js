@@ -10,10 +10,10 @@ ProductTag.init(
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
           },
           product_id: {
-            Type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER,
             references: {
               model: 'product',
               key: 'id',
@@ -27,6 +27,8 @@ ProductTag.init(
               key: 'id',
             },      
           }
+    },{
+      sequelize
     }
 );
 module.exports = ProductTag;

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Category, product, tag, productTag } = require('../../models');
+const { Category, Product, Tag, ProductTag } = require('../../models');
 
 router.get('/', async (req, res) => {
     try {
@@ -12,9 +12,9 @@ router.get('/', async (req, res) => {
 
   router.get('/:id', async (req, res) => {
     try {
-      const productTagData = await productTag.findByPk(req.params.id, {
+      const productTagData = await ProductTag.findByPk(req.params.id, {
         // JOIN with travellers, using the Trip through table
-        include: [{ model: Traveller, through: Trip, as: 'location_travellers' }]
+        include: [Product, Tag]
       });
   
       if (!productTagData) {
@@ -30,14 +30,14 @@ router.get('/', async (req, res) => {
 
   router.post('/', async (req, res) => {
     try {
-      const productTagData = await productTag.create(req.body);
+      const productTagData = await ProductTag.create(req.body);
       res.status(200).json(productTagData);
     } catch (err) {
       res.status(400).json(err);
     }
   });
   router.put("/:id", (req, res) => {
-    productTag.update(
+    ProductTag.update(
       {
         product_id: req.body.product_id,
         tag_id: req.body.tag_id,
@@ -66,7 +66,7 @@ router.get('/', async (req, res) => {
 
   router.delete('/:id', async (req, res) => {
     try {
-      const productTagData = await productTag.destroy({
+      const productTagData = await ProductTag.destroy({
         where: {
           id: req.params.id
         }
